@@ -52,7 +52,7 @@ def createMap():
             roomList.append(room)
     return roomList
 
-roomList = createMap()
+# roomList = createMap()
 
 def updateMap():
     screen.fill((0, 0, 0))  # 填充颜色
