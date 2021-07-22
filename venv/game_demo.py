@@ -1,15 +1,16 @@
 import random
 import sys
-import Room
-import Player
+import Room,Road,Player,Consts,MoveController
 import pygame
-import Consts
 
 isPause = False
 
 #帧函数，显示更新
 def update():
     screen.fill((0, 0, 0))  # 填充颜色
+    #显示道路
+    for i in roadList:
+        screen.blit(i.picDir,i.position)
     #显示房间
     for i in roomList:
         screen.blit(i.roomStatus,i.position)
@@ -23,7 +24,8 @@ if __name__ == '__main__':
     pygame.init()                       # 初始化pygame
     size = width, height = 640, 480     # 设置窗口大小
     screen = pygame.display.set_mode(size)  # 显示窗口
-    roomList,startRoom = Room.createMap()#初始化地图
+    roomList,startRoom,endRoom = Room.createMap()#初始化地图
+    roadList = Road.initAllRoads(None)#初始化道路
     player = Player.Player()#初始化玩家
     player.roomCoor = startRoom.Coor
     while True:
@@ -40,13 +42,17 @@ if __name__ == '__main__':
             if not isPause:
                 if event.type == pygame.KEYDOWN:#移动角色
                     if event.key == pygame.K_LEFT:
-                        player.move(Consts.leftDerection)
+                        moveDirection = Consts.leftDerection
                     if event.key == pygame.K_RIGHT:
-                        player.move(Consts.rightDerection)
+                        moveDirection = Consts.rightDerection
                     if event.key == pygame.K_UP:
-                        player.move(Consts.upDerection)
+                        moveDirection = Consts.upDerection
                     if event.key == pygame.K_DOWN:
-                        player.move(Consts.downDerection)
+                        moveDirection = Consts.downDerection
+                    if MoveController.isPlayerCanMove(moveDirection=moveDirection,
+                                                      roadList=roadList,
+                                                      player=player):
+                        MoveController.moveCharacter(character=player,direction=moveDirection)
                 update()
 
 
