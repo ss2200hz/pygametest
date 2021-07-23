@@ -8,21 +8,21 @@ def isPlayerCanMove(moveDirection,roadList,player):
     isNotEdge = False
     x = player.roomCoor[0]
     y = player.roomCoor[1]
-    if moveDirection == Consts.upDerection:
+    if moveDirection == Consts.UP_DIRECTION:
         nextRoom = (x,y-1)
-        if player.roomCoor[1] > Consts.hightMinNo:
+        if player.roomCoor[1] > Consts.HIGHT_MIN_NO:
             isNotEdge = True
-    elif moveDirection == Consts.downDerection:
+    elif moveDirection == Consts.DOWN_DIRECTION:
         nextRoom = (x, y + 1)
-        if player.roomCoor[1] < Consts.hightMaxNo:
+        if player.roomCoor[1] < Consts.WEIGHT_MAX_NO:
             isNotEdge = True
-    elif moveDirection == Consts.leftDerection:
+    elif moveDirection == Consts.LEFT_DIRECTION:
         nextRoom = (x - 1, y)
-        if player.roomCoor[0] > Consts.weightMinNo:
+        if player.roomCoor[0] > Consts.WEIGHT_MIN_NO:
             isNotEdge = True
-    elif moveDirection == Consts.rightDerection:
+    elif moveDirection == Consts.RIGHT_DIRECTION:
         nextRoom = (x + 1, y)
-        if player.roomCoor[0] < Consts.weightMaxNo:
+        if player.roomCoor[0] < Consts.WEIGHT_MAX_NO:
             isNotEdge = True
     for road in roadList:
         if player.roomCoor in road.linkedRooms and nextRoom in road.linkedRooms:
@@ -33,11 +33,11 @@ def isPlayerCanMove(moveDirection,roadList,player):
 
 #移动角色
 def moveCharacter(character,direction):
-    if direction == Consts.upDerection:
+    if direction == Consts.UP_DIRECTION:
             character.roomCoor = (character.roomCoor[0], character.roomCoor[1] - 1)
-    elif direction == Consts.downDerection:
+    elif direction == Consts.DOWN_DIRECTION:
             character.roomCoor = (character.roomCoor[0], character.roomCoor[1] + 1)
-    elif direction == Consts.leftDerection:
+    elif direction == Consts.LEFT_DIRECTION:
             character.roomCoor = (character.roomCoor[0] - 1, character.roomCoor[1])
-    elif direction == Consts.rightDerection:
+    elif direction == Consts.RIGHT_DIRECTION:
             character.roomCoor = (character.roomCoor[0] + 1, character.roomCoor[1])

@@ -35,13 +35,13 @@ def createMap():
     for room in roomList:
         roomNo = Room.getroomNo(room)
         if roomNo == startPoint:
-            room.setRoomStatus(Consts.imgs_dir + "point.png")
+            room.setRoomStatus(Consts.IMG_DIR + "point.png")
             startRoom = room
         elif  roomNo == endPoint:
-            room.setRoomStatus(Consts.imgs_dir + "point.png")
+            room.setRoomStatus(Consts.IMG_DIR + "point.png")
             endRoom = room
         else:
-            room.setRoomStatus(Consts.imgs_dir + "room.png")
+            room.setRoomStatus(Consts.IMG_DIR + "room.png")
     return roomList,startRoom,endRoom
 
 #随机生成起终点
@@ -51,7 +51,7 @@ def createRandomPoint(min,max):
         list.append(i)
     a = random.randint(0, len(list) - 1)
     start = list[a]
-    list.remove(a)#确保两点不重复
+    del list[a]#确保两点不重复
 
     b = random.randint(0, len(list) - 1)
     end = list[b]

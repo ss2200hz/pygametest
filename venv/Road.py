@@ -4,7 +4,7 @@ import pygame
 #链接房间的道路
 class Road(object):
     def __init__(self):
-        self.picDir = pygame.image.load(Consts.imgs_dir+"road.png")
+        self.picDir = pygame.image.load(Consts.IMG_DIR+"road.png")
         self.position = (0,0)
         self.linkedRooms = []
     def setPosition(self,pos):
@@ -13,13 +13,13 @@ class Road(object):
     def setLinkedRooms(self,roomCoor,direct):
         x = roomCoor[0]
         y = roomCoor[1]
-        if direct == Consts.upDerection:
+        if direct == Consts.UP_DIRECTION:
             self.linkedRooms = [(x,y),(x,y-1)]
-        if direct == Consts.downDerection:
+        if direct == Consts.DOWN_DIRECTION:
             self.linkedRooms = [(x, y), (x, y + 1)]
-        if direct == Consts.leftDerection:
+        if direct == Consts.LEFT_DIRECTION:
             self.linkedRooms = [(x, y), (x - 1, y)]
-        if direct == Consts.rightDerection:
+        if direct == Consts.RIGHT_DIRECTION:
             self.linkedRooms = [(x, y), (x + 1, y)]
 
 #根据room位置及方向生成通路
@@ -27,26 +27,62 @@ def initRoadByRoom(roomCoor,derection):
     x = roomCoor[0]*48
     y = roomCoor[1]*48
     road = Road()
-    if derection == Consts.leftDerection:
+    if derection == Consts.LEFT_DIRECTION:
         road.setPosition((x-20,y+10))
-        road.setLinkedRooms(roomCoor,Consts.leftDerection)
-    elif derection == Consts.upDerection:
+    elif derection == Consts.UP_DIRECTION:
         road.setPosition((x+10,y-20))
-        road.setLinkedRooms(roomCoor, Consts.upDerection)
-    elif derection == Consts.rightDerection:
+    elif derection == Consts.RIGHT_DIRECTION:
         road.setPosition((x+40,y+10))
-        road.setLinkedRooms(roomCoor, Consts.rightDerection)
-    elif derection == Consts.downDerection:
+    elif derection == Consts.DOWN_DIRECTION:
         road.setPosition((x+10,y+40))
-        road.setLinkedRooms(roomCoor, Consts.downDerection)
+    road.setLinkedRooms(roomCoor,derection)
     return road
 
-
-def createLTypeRoad(startRoom,endRoom):
+#横向优先生成起终点通路
+def createHLTypeRoad(startRoom,endRoom):
     x1 = startRoom.Coor[0]
     x2 = endRoom.Coor[0]
     y1 = startRoom.Coor[1]
     y2 = endRoom.Coor[1]
+    roadList = []
+    if x1<x2:
+        for x in range(x1,x2):
+            roadList.append(initRoadByRoom((x,y1),Consts.RIGHT_DIRECTION))
+    elif x1>x2:
+        x = x1
+        while x>x2:
+            roadList.append(initRoadByRoom((x,y1),Consts.LEFT_DIRECTION))
+            x-=1
+    if y1<y2:
+        for y in range(y1,y2):
+            roadList.append(initRoadByRoom((x2, y), Consts.DOWN_DIRECTION))
+    elif y1>y2:
+        for y in range(y2,y1):
+            roadList.append(initRoadByRoom((x2, y), Consts.DOWN_DIRECTION))
+    return roadList
+
+#纵向优先生成起终点通路
+def createVLTypeRoad(startRoom,endRoom):
+    x1 = startRoom.Coor[0]
+    x2 = endRoom.Coor[0]
+    y1 = startRoom.Coor[1]
+    y2 = endRoom.Coor[1]
+    roadList = []
+    if y1<y2:
+        for y in range(y1,y2):
+            roadList.append(initRoadByRoom((x1,y),Consts.DOWN_DIRECTION))
+    elif y1>y2:
+        y=y1
+        while y>y2:
+            roadList.append(initRoadByRoom((x1,y),Consts.UP_DIRECTION))
+            y-=1
+    if x1<x2:
+        for x in range(x1,x2):
+            roadList.append(initRoadByRoom((x,y2),Consts.RIGHT_DIRECTION))
+    elif x1>x2:
+        for x in range(x2,x1):
+            roadList.append(initRoadByRoom((x,y2),Consts.RIGHT_DIRECTION))
+    return roadList
 
 #根据起终点位置生成路线
 def initAllRoads():

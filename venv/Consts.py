@@ -1,11 +1,11 @@
 #图片位置
-imgs_dir = "..\\imgs\\"
-weightMinNo = 0
-weightMaxNo = 12
-hightMinNo = 0
-hightMaxNo = 9
+IMG_DIR = "..\\imgs\\"
+WEIGHT_MIN_NO = 0
+WEIGHT_MAX_NO = 12
+HIGHT_MIN_NO = 0
+HIGHT_MAX_NO = 9
 #方向常量，上下左右0,1,2,3
-upDerection = 0
-downDerection = 1
-leftDerection = 2
-rightDerection = 3
+UP_DIRECTION = 0
+DOWN_DIRECTION = 1
+LEFT_DIRECTION = 2
+RIGHT_DIRECTION = 3
