@@ -1,6 +1,7 @@
 import json
 import openpyxl
 import os
+import consts
 
 #初始化配置
 def init_config():
@@ -11,15 +12,49 @@ def init_config():
 
 config_data = init_config()
 
-#根据格子数量计算分辨率
-def get_window_size():
-    width_num = config_data['width'] #横向数量
-    high_num = config_data['high'] #纵向数量
+#格子坐标向像素值转换
+def position_to_coor(position,grid_x,grid_y):
+    pos_x = position[0]
+    pos_y = position[1]
+    x = (pos_x - 1) * consts.GRID_WIDTH + pos_x * consts.INTERVAL
+    y = (pos_y - 1) * consts.GRID_HIGH + pos_y * consts.INTERVAL
 
-    window_width = width_num * (grid_width + width_num + 1)
-    window_high = high_num * (grid_high + high_num + 1)
+    grid_full_x = consts.GRID_WIDTH * grid_x + (grid_x + 1) * consts.INTERVAL
+    grid_full_y = consts.GRID_HIGH * grid_y + (grid_y + 1) * consts.INTERVAL
+    coor_x = x + (consts.WINDOW_WIDTH - grid_full_x) / 2
+    coor_y = y + (consts.WINDOW_HIGH - grid_full_y) / 2
+    return int(coor_x),int(coor_y)
 
-    return window_width,window_high
+#数字坐标转换像素值
+def number_position_to_coor(position,grid_x,grid_y):
+    pos_x = position[0]
+    pos_y = position[1]
+    x = (pos_x - 1) * consts.GRID_WIDTH + pos_x * consts.INTERVAL
+    y = (pos_y - 1) * consts.GRID_HIGH + pos_y * consts.INTERVAL
+
+    grid_full_x = consts.GRID_WIDTH * grid_x + (grid_x + 1) * consts.INTERVAL
+    grid_full_y = consts.GRID_HIGH * grid_y + (grid_y + 1) * consts.INTERVAL
+    coor_x = x + (consts.WINDOW_WIDTH - grid_full_x) / 2
+    coor_y = y + (consts.WINDOW_HIGH - grid_full_y) / 2
+
+    #美观起见，略微偏移一些
+    return int(coor_x) + consts.font_offset_x, int(coor_y) + consts.font_offset_y
+
+#像素值向格子坐标转换
+def coor_to_position(coor,grid_x,grid_y):
+    grid_full_x = consts.GRID_WIDTH * grid_x + (grid_x + 1) * consts.INTERVAL
+    grid_full_y = consts.GRID_HIGH * grid_y + (grid_y + 1) * consts.INTERVAL
+    coor_x = coor[0]
+    coor_y = coor[1]
+
+    old_x = coor_x - (consts.WINDOW_WIDTH - grid_full_x) / 2
+    old_y = coor_y - (consts.WINDOW_HIGH - grid_full_y) / 2
+
+    x = old_x / (consts.GRID_WIDTH + consts.INTERVAL)
+    y = old_y / (consts.GRID_HIGH + consts.INTERVAL)
+    return int(x) + 1,int(y) + 1
+
+
 
 #Excel工具
 class ExcelTool:
@@ -84,6 +119,6 @@ class ExcelTool:
 
 if __name__ == '__main__':
     excel_tool = ExcelTool()
-    file_path = 'config.xlsx'
-    list = excel_tool.getAllSheetData(file_path)
-    excel_tool.saveDataByJson(data=list,file=file_path,outputPath='D:\\pytest\\game\\venv\\eyesexamgame\\test')
+    file_path = 'E:\\pytest\\game\\venv\\eyesexamgame\\config.xlsx'
+    data = excel_tool.getAllSheetData(file=file_path)
+    excel_tool.saveDataByJson(data=data,file=file_path,outputPath='E:\\pytest\\game\\venv\\eyesexamgame')

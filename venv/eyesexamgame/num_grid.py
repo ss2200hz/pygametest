@@ -26,14 +26,14 @@ class NumGrid:
         y = position[1] + 1
         self.position = (x,y)
         #点击范围最小像素值
-        width_min = x * consts.interval + (x - 1) * consts.grid_width
-        high_min = y * consts.interval + (y - 1) * consts.grid_high
+        # width_min = x * consts.INTERVAL + (x - 1) * consts.GRID_WIDTH
+        # high_min = y * consts.INTERVAL + (y - 1) * consts.GRID_HIGH
         # 点击范围最大像素值
-        width_max = width_min + consts.grid_width
-        high_max = high_min + consts.grid_high
+        # width_max = width_min + consts.GRID_WIDTH
+        # high_max = high_min + consts.GRID_HIGH
 
-        self.display_coor = (width_min,high_min) #图片位置
-        self.touch_coor = (width_max,high_max) #最大可点击范围
+        # self.display_coor = (width_min,high_min) #图片位置
+        # self.touch_coor = (width_max,high_max) #最大可点击范围
 
 #生成所有格子
 def init_all_grid(width,high,grid_picture,clicked_picture,content_list):
@@ -49,11 +49,10 @@ def init_all_grid(width,high,grid_picture,clicked_picture,content_list):
     return grid_list
 
 #根据点击坐标判断
-def get_touch_grid(coor,grid_list):
-    x = coor[0]
-    y = coor[1]
+def get_touch_grid(position,grid_list):
+    x = position[0]
+    y = position[1]
     for grid in grid_list:
-        if x<grid.touch_coor[0] and x>grid.display_coor[0]\
-            and y<grid.touch_coor[1] and y>grid.display_coor[1]:
+        if x == grid.position[0] and y == grid.position[1]:
             grid.on_clicked()
             return grid

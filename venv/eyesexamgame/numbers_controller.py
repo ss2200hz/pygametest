@@ -1,13 +1,21 @@
 import random
 
 import pygame
-from eyesexamgame import consts
+from eyesexamgame import consts,tools
 
 class Numbers:
     def __init__(self,display_time,font_color,font_type,font_size):
         self.display_time = display_time
         #设置颜色
-        self.color = font_color
+        if ',' in font_color:
+            _color = font_color.split(',')
+            color = []
+            for i in _color:
+                color.append(int(i))
+            self.color = tuple(color)
+        else:
+            self.color = (255,255,255)
+
         #设置字体
         if font_type != None and font_type != '':
             self.type = font_type
@@ -21,11 +29,11 @@ class Numbers:
 
     def set_position(self,position):
         self.position = position
-        x = position[0]
-        y = position[1]
-        width = x * consts.interval + (x - 1) * consts.grid_width + 10
-        high = y * consts.interval + (y - 1) * consts.grid_high - 5
-        self.coor = (width,high)
+        # x = position[0]
+        # y = position[1]
+        # width = x * consts.INTERVAL + (x - 1) * consts.GRID_WIDTH + 10
+        # high = y * consts.INTERVAL + (y - 1) * consts.GRID_HIGH - 5
+        # self.coor = (width,high)
 
 #根据格子数量生成一组数字
 def init_all_numbers(number_data,start_num,is_random,num,plus_num,coor_list):

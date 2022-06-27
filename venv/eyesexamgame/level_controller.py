@@ -6,7 +6,7 @@ def get_level_config():
         if data_direct['sheet_name'] == 'Level':
             return data_direct['data']
 
-    raise 'not found level config!'
+    raise Exception('not found level config!')
 
 level_data_config = get_level_config()
 level_num = len(level_data_config)
@@ -16,7 +16,7 @@ def get_data_by_id(level_id):
     for dict in level_data_config:
         if int(dict['level_id']) == int(level_id):
             return dict
-    raise 'not found id!'
+    raise Exception('not found id!')
 
 level_data = None
 
