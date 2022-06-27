@@ -24,20 +24,30 @@ def isPlayerCanMove(moveDirection,roadList,player):
         nextRoom = (x + 1, y)
         if player.roomCoor[0] < Consts.WEIGHT_MAX_NO:
             isNotEdge = True
-    for road in roadList:
-        if player.roomCoor in road.linkedRooms and nextRoom in road.linkedRooms:
+    for road in roadList :
+        if player.roomCoor in road.linkedRooms and nextRoom in road.linkedRooms \
+                and road.isBroken != True:
             isRoad = True
             break
     # print(str(isRoad) +" "+ str(isNotEdge))
     return isRoad and isNotEdge #具有道路且不在边界方可移动
 
-#移动角色
-def moveCharacter(character,direction):
+#损坏道路的移动
+def moveAndBreakRoad(character,direction,roadList):
     if direction == Consts.UP_DIRECTION:
-            character.roomCoor = (character.roomCoor[0], character.roomCoor[1] - 1)
+        newRoomCoor = (character.roomCoor[0], character.roomCoor[1] - 1)
+        Road.deleteRoadByRoom(character.roomCoor,newRoomCoor,roadList)
+        character.roomCoor = newRoomCoor
     elif direction == Consts.DOWN_DIRECTION:
-            character.roomCoor = (character.roomCoor[0], character.roomCoor[1] + 1)
+        newRoomCoor = (character.roomCoor[0], character.roomCoor[1] + 1)
+        Road.deleteRoadByRoom(character.roomCoor, newRoomCoor,roadList)
+        character.roomCoor = newRoomCoor
     elif direction == Consts.LEFT_DIRECTION:
-            character.roomCoor = (character.roomCoor[0] - 1, character.roomCoor[1])
+        newRoomCoor = (character.roomCoor[0] - 1, character.roomCoor[1])
+        print(str([character.roomCoor, newRoomCoor]))
+        Road.deleteRoadByRoom(character.roomCoor, newRoomCoor,roadList)
+        character.roomCoor = newRoomCoor
     elif direction == Consts.RIGHT_DIRECTION:
-            character.roomCoor = (character.roomCoor[0] + 1, character.roomCoor[1])
+        newRoomCoor = (character.roomCoor[0] + 1, character.roomCoor[1])
+        Road.deleteRoadByRoom(character.roomCoor, newRoomCoor,roadList)
+        character.roomCoor = newRoomCoor

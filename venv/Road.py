@@ -6,6 +6,7 @@ class Road(object):
     def __init__(self):
         self.picDir = pygame.image.load(Consts.IMG_DIR+"road.png")
         self.position = (0,0)
+        self.isBroken = False
         self.linkedRooms = []
     def setPosition(self,pos):
         self.position = pos
@@ -37,6 +38,15 @@ def initRoadByRoom(roomCoor,derection):
         road.setPosition((x+10,y+40))
     road.setLinkedRooms(roomCoor,derection)
     return road
+
+#根据房间编号删除road
+def deleteRoadByRoom(roomCoor_1,roomCoor_2,roadList):
+    for i in roadList:
+        if i.linkedRooms == [roomCoor_1,roomCoor_2] or \
+            i.linkedRooms == [roomCoor_2,roomCoor_1]:
+            print("delete road")
+            i.isBroken = True
+            return
 
 #横向优先生成起终点通路
 def createHLTypeRoad(startRoom,endRoom):
@@ -90,5 +100,8 @@ def initAllRoads():
     for i in range(0, 10):
         for j in range(0, 13):
             for k in [0,3]:
-                roadList.append(initRoadByRoom((j,i),k))
+                if j == 12 and k == 3:
+                    pass
+                else:
+                    roadList.append(initRoadByRoom((j,i),k))
     return roadList

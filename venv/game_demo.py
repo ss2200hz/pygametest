@@ -21,7 +21,10 @@ def resetGame():
 
 
 def gameOver():
-    if player.roomCoor == endRoom.Coor:
+    isAllRoadBroken = False
+    for i in range(1,len(roadList)):
+        isAllRoadBroken = roadList[i].isBroken * roadList[i-1].isBroken
+    if player.roomCoor == endRoom.Coor and isAllRoadBroken:
         global isOver
         isOver = True
         final_text = "Your Win"
@@ -35,7 +38,9 @@ def update():
     screen.fill((0, 0, 0))  # 填充颜色
     #显示道路
     for i in roadList:
-        screen.blit(i.picDir,i.position)
+        #控制道路显示状态
+        if not i.isBroken:
+            screen.blit(i.picDir,i.position)
     #显示房间
     for i in roomList:
         screen.blit(i.roomStatus,i.position)
@@ -53,6 +58,7 @@ if __name__ == '__main__':
     roomList, startRoom, endRoom = Room.createMap()  # 初始化地图
     # roadList = Road.createHLTypeRoad(startRoom, endRoom)#初始化道路
     roadList = Road.createVLTypeRoad(startRoom, endRoom)
+    # roadList = Road.initAllRoads()
     player = Player.Player()  # 初始化玩家
     player.roomCoor = startRoom.Coor
     while True:
@@ -62,10 +68,7 @@ if __name__ == '__main__':
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:#P键暂停
-                    if isPause:
-                        isPause = False
-                    else:
-                        isPause = True
+                        isPause = ~isPause
                 if event.key == pygame.KSCAN_J:#Enter重置游戏
                     resetGame()
             if not isOver:
@@ -87,7 +90,7 @@ if __name__ == '__main__':
                             if MoveController.isPlayerCanMove(moveDirection=moveDirection,
                                                               roadList=roadList,
                                                               player=player):
-                                MoveController.moveCharacter(character=player,direction=moveDirection)
+                                MoveController.moveAndBreakRoad(character=player,direction=moveDirection,roadList=roadList)
                 update()
         gameOver()
     pygame.quit()  # 退出pygame

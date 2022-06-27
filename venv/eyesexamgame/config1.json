@@ -1,0 +1,17 @@
+{
+	"is_test": 1,
+	"display_time": 3,
+	"width": 10,
+	"high": 10,
+	"numbers":8,
+	"start_num":1,
+	"is_random":0,
+	"random_min":0,
+	"random_max":0,
+	"plus_num":1,
+	"grid_picture":"room.png",
+	"grid_picture_clicked":"point.png",
+	"font_color":"yellow",
+	"font_type":"",
+	"font_size":40
+}
