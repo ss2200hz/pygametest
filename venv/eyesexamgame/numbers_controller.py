@@ -28,7 +28,7 @@ class Numbers:
         self.coor = (width,high)
 
 #根据格子数量生成一组数字
-def init_all_numbers(number_data,start_num,is_random,num,plus_num,x,y):
+def init_all_numbers(number_data,start_num,is_random,num,plus_num,coor_list):
     number_list = []
     #根据规则随机生成指定数量数字
     # start_num = consts.config_data['start_num']
@@ -42,7 +42,6 @@ def init_all_numbers(number_data,start_num,is_random,num,plus_num,x,y):
     else:
         pass
     #随机生成位置
-    coor_list = create_random_coor((x,y),num)
     for i in range(0,num):
         number = Numbers(display_time=number_data['display_time'],
                          font_color=number_data['font_color'],
