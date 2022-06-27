@@ -11,11 +11,11 @@ is_over = False
 #全部通过
 is_win = False
 
-is_test = True
+is_test = True #测试用
 
 config = tools.config_data
 
-
+#重置游戏
 def reset_game():
     global is_over
     global is_pass
@@ -29,6 +29,7 @@ def reset_game():
     level = 1
     content_list, grid_list = level_controller.init_level(level)
 
+#点击事件处理
 def on_mouse_clicked(pos):
     global is_over
     grid = num_grid.get_touch_grid(pos,grid_list=grid_list)
@@ -39,6 +40,18 @@ def on_mouse_clicked(pos):
         else:
             del content_list[0]
 
+#通关判定
+def pass_level():
+    global level
+    global content_list
+    global grid_list
+    if len(content_list) <= 0:
+        if level < level_controller.level_num:
+            level += 1
+            content_list, grid_list = level_controller.init_level(level)
+        else:
+            is_over = True
+            is_win = True
 
 #帧函数，显示更新
 def update():
@@ -48,7 +61,7 @@ def update():
     #显示格子
     for i in grid_list:
         screen.blit(i.picture,i.display_coor)
-    #显示数字
+    #显示内容
     for i in content_list:
         font_text = str(i.num)
         font_type = pygame.font.SysFont(i.type,i.size)
@@ -73,11 +86,14 @@ def update():
 if __name__ == '__main__':
     pygame.init()                       # 初始化pygame
     screen = pygame.display.set_mode((800,600))  # 显示窗口
+    #关卡数据加载
     level = 1
     content_list,grid_list = level_controller.init_level(level)
     level_data = level_controller.level_data
+    #记录开始时间
     start_time = pygame.time.get_ticks()
     while True:
+        #获取当前时间
         now_time = pygame.time.get_ticks()
         for event in pygame.event.get():  # 遍历所有事件
             if event.type == pygame.QUIT:  # 如果单击关闭窗口，则退出
@@ -91,14 +107,7 @@ if __name__ == '__main__':
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     x,y = pygame.mouse.get_pos()
                     on_mouse_clicked((x,y))
-                if len(content_list) <= 0:
-                    if level < level_controller.level_num:
-                        level += 1
-                        content_list,grid_list = level_controller.init_level(level)
-                    else:
-                        is_over = True
-                        is_win = True
+                #判断是否通关
+                pass_level()
         update()
-
-
     pygame.quit()  # 退出pygame
