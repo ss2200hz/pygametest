@@ -22,7 +22,7 @@ def reset_game():
     global grid_list
     global level
     global level_data
-    global start_time
+    global level_start_time
 
     is_over = False
     is_pass = False
@@ -30,13 +30,13 @@ def reset_game():
     level = 1
     content_list, grid_list = level_controller.init_level(level)
     level_data = level_controller.level_data #刷新关卡数据
-    start_time = pygame.time.get_ticks()
+    level_start_time = pygame.time.get_ticks()
 
 #点击事件处理
 def on_mouse_clicked(pos):
     global is_over
     #数字消失后可点击
-    if now_time - start_time >= level_data['display_time'] * 1000 or consts.is_test:
+    if now_time - level_start_time - consts.READY_TIME * 1000 >= level_data['display_time'] * 1000 or consts.is_test:
         grid = num_grid.get_touch_grid(tools.coor_to_position(coor=pos,
                                                               grid_x=level_data['width'],
                                                               grid_y=level_data['high']),grid_list=grid_list)
@@ -55,14 +55,14 @@ def pass_level():
     global is_over
     global is_win
     global level_data
-    global start_time
+    global level_start_time
 
     if len(content_list) <= 0:
         if level < level_controller.level_num:
             level += 1
             content_list, grid_list = level_controller.init_level(level)
             level_data = level_controller.level_data #刷新关卡数据
-            start_time = pygame.time.get_ticks() #重新开始计算关卡时间
+            level_start_time = pygame.time.get_ticks() #重新开始计算关卡时间
         else:
             is_over = True
             is_win = True
@@ -83,7 +83,7 @@ def update():
         font_type = pygame.font.SysFont(i.type,i.size)
         font = font_type.render(font_text,1,i.color)
         if not consts.is_test:
-            if now_time - start_time - consts.READY_TIME * 1000 < level_data['display_time'] * 1000  or is_over:
+            if now_time - level_start_time - consts.READY_TIME * 1000 < level_data['display_time'] * 1000  or is_over:
                 screen.blit(font,tools.number_position_to_coor(position=i.position,
                                                               grid_x=level_data['width'],
                                                               grid_y=level_data['high']))
@@ -106,7 +106,7 @@ def update():
 
 def cutdown_time():
     screen.fill((0,0,0))
-    second = consts.READY_TIME - int((now_time - level_ready_time) / 1000)
+    second = consts.READY_TIME - int((now_time - level_start_time) / 1000)
     font_size = 100
 
     ft = pygame.font.SysFont("Arial", font_size)
@@ -120,12 +120,11 @@ if __name__ == '__main__':
     pygame.init()                       # 初始化pygame
     screen = pygame.display.set_mode((consts.WINDOW_WIDTH,consts.WINDOW_HIGH))  # 显示窗口
     reset_game()
-    level_ready_time = pygame.time.get_ticks()
 
     while True:
         #获取当前时间
         now_time = pygame.time.get_ticks()
-        if now_time - level_ready_time <= consts.READY_TIME * 1000:
+        if now_time - level_start_time <= consts.READY_TIME * 1000:
             for event in pygame.event.get():  # 遍历所有事件
                 if event.type == pygame.QUIT:  # 如果单击关闭窗口，则退出
                     sys.exit()
