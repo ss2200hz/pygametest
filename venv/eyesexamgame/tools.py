@@ -38,7 +38,7 @@ def number_position_to_coor(position,grid_x,grid_y):
     coor_y = y + (consts.WINDOW_HIGH - grid_full_y) / 2
 
     #美观起见，略微偏移一些
-    return int(coor_x) + consts.font_offset_x, int(coor_y) + consts.font_offset_y
+    return int(coor_x) + consts.FONT_OFFSET_X, int(coor_y) + consts.FONT_OFFSET_Y
 
 #像素值向格子坐标转换
 def coor_to_position(coor,grid_x,grid_y):

@@ -11,5 +11,7 @@ GRID_WIDTH = 70 #格子图片宽度
 GRID_HIGH = 70 #格子图片高度
 INTERVAL = 30 #间隔距离
 #文字的偏移量
-font_offset_x = 20
-font_offset_y = -10
+FONT_OFFSET_X = 20
+FONT_OFFSET_Y = -10
+#准备时间
+READY_TIME = 3

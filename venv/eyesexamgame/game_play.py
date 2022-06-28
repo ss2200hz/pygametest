@@ -83,7 +83,7 @@ def update():
         font_type = pygame.font.SysFont(i.type,i.size)
         font = font_type.render(font_text,1,i.color)
         if not consts.is_test:
-            if now_time - start_time < level_data['display_time'] * 1000  or is_over:
+            if now_time - start_time - consts.READY_TIME * 1000 < level_data['display_time'] * 1000  or is_over:
                 screen.blit(font,tools.number_position_to_coor(position=i.position,
                                                               grid_x=level_data['width'],
                                                               grid_y=level_data['high']))
@@ -98,18 +98,40 @@ def update():
             final_text = "Your Lose"
         ft2_font = pygame.font.SysFont("Arial", 50)  # 设置文字字体
         ft2_surf = ft2_font.render(final_text, 1, (253, 177, 6))  # 设置文字颜色
-        screen.blit(ft2_surf, [int(screen.get_width() / 2) - int(ft2_surf.get_width() / 2), 200])  # 设置文字显示位置
+        screen.blit(ft2_surf, [int(screen.get_width() / 2) - int(ft2_surf.get_width() / 2)
+            ,int(screen.get_height() / 2) - int(ft2_surf.get_height() / 2)])  # 设置文字显示位置
         pygame.display.flip()  # 更新整个待显示的Surface对象到屏幕上
 
+    pygame.display.update()
+
+def cutdown_time():
+    screen.fill((0,0,0))
+    second = consts.READY_TIME - int((now_time - level_ready_time) / 1000)
+    font_size = 100
+
+    ft = pygame.font.SysFont("Arial", font_size)
+    ft_surf = ft.render(str(second), 1, (253, 177, 6))
+    screen.blit(ft_surf, [int(screen.get_width() / 2) - int(ft_surf.get_width() / 2),
+                          int(screen.get_height() / 2) - int(ft_surf.get_height() / 2)])
+    # pygame.display.flip()
     pygame.display.update()
 
 if __name__ == '__main__':
     pygame.init()                       # 初始化pygame
     screen = pygame.display.set_mode((consts.WINDOW_WIDTH,consts.WINDOW_HIGH))  # 显示窗口
     reset_game()
+    level_ready_time = pygame.time.get_ticks()
+
     while True:
         #获取当前时间
         now_time = pygame.time.get_ticks()
+        if now_time - level_ready_time <= consts.READY_TIME * 1000:
+            for event in pygame.event.get():  # 遍历所有事件
+                if event.type == pygame.QUIT:  # 如果单击关闭窗口，则退出
+                    sys.exit()
+            cutdown_time()
+            continue
+
         for event in pygame.event.get():  # 遍历所有事件
             if event.type == pygame.QUIT:  # 如果单击关闭窗口，则退出
                 sys.exit()
