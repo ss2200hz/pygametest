@@ -1,11 +1,11 @@
 IMG_DIR = "..\\..\\imgs\\"
 
 #测试用
-is_test = False
+is_test = True
 
 #窗口大小
 WINDOW_WIDTH = 1280
-WINDOW_HIGH = 720
+WINDOW_HIGH = 960
 
 GRID_WIDTH = 70 #格子图片宽度
 GRID_HIGH = 70 #格子图片高度

@@ -12,7 +12,6 @@ is_over = False
 #全部通过
 is_win = False
 
-config = tools.config_data
 
 #重置游戏
 def reset_game():

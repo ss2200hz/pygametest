@@ -26,6 +26,7 @@ def position_to_coor(position,grid_x,grid_y):
     return int(coor_x),int(coor_y)
 
 #数字坐标转换像素值
+#TODO 多位数位置自适应
 def number_position_to_coor(position,grid_x,grid_y):
     pos_x = position[0]
     pos_y = position[1]
@@ -119,6 +120,6 @@ class ExcelTool:
 
 if __name__ == '__main__':
     excel_tool = ExcelTool()
-    file_path = 'E:\\pytest\\game\\venv\\eyesexamgame\\config.xlsx'
+    file_path = 'config.xlsx'
     data = excel_tool.getAllSheetData(file=file_path)
-    excel_tool.saveDataByJson(data=data,file=file_path,outputPath='E:\\pytest\\game\\venv\\eyesexamgame')
+    excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\eyesexamgame')
