@@ -92,9 +92,9 @@ def update():
                                                            grid_y=level_data['high']))
     if is_over:
         if is_win:
-            final_text = "Your Win"
+            final_text = consts.WIN_TEXT
         else:
-            final_text = "Your Lose"
+            final_text = consts.LOSE_TEXT
         ft2_font = pygame.font.SysFont("Arial", 50)  # 设置文字字体
         ft2_surf = ft2_font.render(final_text, 1, (253, 177, 6))  # 设置文字颜色
         screen.blit(ft2_surf, [int(screen.get_width() / 2) - int(ft2_surf.get_width() / 2)
@@ -117,7 +117,7 @@ def cutdown_time():
 
 if __name__ == '__main__':
     pygame.init()                       # 初始化pygame
-    screen = pygame.display.set_mode((consts.WINDOW_WIDTH,consts.WINDOW_HIGH))  # 显示窗口
+    screen = pygame.display.set_mode(consts.WINDOW_SIZE)  # 显示窗口
     reset_game()
 
     while True:
