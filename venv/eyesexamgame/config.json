@@ -4,56 +4,56 @@
         "data": [
             {
                 "level_id": 1,
-                "level_type": 1,
+                "level_type": 2,
                 "display_time": 3,
                 "width": 7,
                 "high": 6,
                 "num": 10,
                 "start_num": 1,
                 "is_random": 0,
-                "random_min": 0,
-                "random_max": 0,
+                "random_min": 1,
+                "random_max": 1,
                 "plus_num": 1,
                 "grid_picture": "grid.png",
                 "grid_picture_clicked": "grid_click.png",
                 "font_color": "55,221,14",
-                "font_type": "",
-                "font_size": 80
+                "font_type": "SimHei",
+                "font_size": 60
             },
             {
                 "level_id": 2,
-                "level_type": 1,
+                "level_type": 2,
                 "display_time": 3,
                 "width": 8,
                 "high": 7,
                 "num": 6,
                 "start_num": 1,
                 "is_random": 0,
-                "random_min": 0,
-                "random_max": 0,
+                "random_min": 1,
+                "random_max": 1,
                 "plus_num": 1,
                 "grid_picture": "grid.png",
                 "grid_picture_clicked": "grid_click.png",
                 "font_color": "55,221,14",
-                "font_type": "",
+                "font_type": "SimHei",
                 "font_size": 80
             },
             {
                 "level_id": 3,
-                "level_type": 1,
+                "level_type": 2,
                 "display_time": 5,
                 "width": 8,
                 "high": 8,
                 "num": 7,
                 "start_num": 1,
                 "is_random": 0,
-                "random_min": 0,
-                "random_max": 0,
+                "random_min": 1,
+                "random_max": 1,
                 "plus_num": 1,
                 "grid_picture": "grid.png",
                 "grid_picture_clicked": "grid_click.png",
                 "font_color": "55,221,14",
-                "font_type": "",
+                "font_type": "SimHei",
                 "font_size": 80
             },
             {
@@ -181,6 +181,51 @@
                 "font_color": "55,221,14",
                 "font_type": "",
                 "font_size": 80
+            }
+        ]
+    },
+    {
+        "sheet_name": "Sentence",
+        "data": [
+            {
+                "id": 1,
+                "index": 1,
+                "content": "寻寻觅觅"
+            },
+            {
+                "id": 2,
+                "index": 1,
+                "content": "冷冷清清"
+            },
+            {
+                "id": 3,
+                "index": 1,
+                "content": "凄凄惨惨戚戚"
+            },
+            {
+                "id": 4,
+                "index": 2,
+                "content": "乍暖还寒时候"
+            },
+            {
+                "id": 5,
+                "index": 2,
+                "content": "最难将息"
+            },
+            {
+                "id": 6,
+                "index": 2,
+                "content": "三杯两盏淡酒"
+            },
+            {
+                "id": 7,
+                "index": 2,
+                "content": "怎敌他晚来风急"
+            },
+            {
+                "id": 8,
+                "index": 2,
+                "content": "雁过也正伤心"
             }
         ]
     }

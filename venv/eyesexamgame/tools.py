@@ -6,7 +6,7 @@ import consts
 #初始化配置
 def init_config():
     config_path = "config.json"
-    with open(config_path,'r') as file:
+    with open(config_path,'r',encoding='utf-8') as file:
         config_data = json.load(file)
     return config_data
 
@@ -21,8 +21,8 @@ def position_to_coor(position,grid_x,grid_y):
 
     grid_full_x = consts.GRID_WIDTH * grid_x + (grid_x + 1) * consts.INTERVAL
     grid_full_y = consts.GRID_HIGH * grid_y + (grid_y + 1) * consts.INTERVAL
-    coor_x = x + (consts.WINDOW_WIDTH - grid_full_x) / 2
-    coor_y = y + (consts.WINDOW_HIGH - grid_full_y) / 2
+    coor_x = x + (consts.WINDOW_SIZE[0] - grid_full_x) / 2
+    coor_y = y + (consts.WINDOW_SIZE[1] - grid_full_y) / 2
     return int(coor_x),int(coor_y)
 
 #数字坐标转换像素值
@@ -35,8 +35,8 @@ def number_position_to_coor(position,grid_x,grid_y):
 
     grid_full_x = consts.GRID_WIDTH * grid_x + (grid_x + 1) * consts.INTERVAL
     grid_full_y = consts.GRID_HIGH * grid_y + (grid_y + 1) * consts.INTERVAL
-    coor_x = x + (consts.WINDOW_WIDTH - grid_full_x) / 2
-    coor_y = y + (consts.WINDOW_HIGH - grid_full_y) / 2
+    coor_x = x + (consts.WINDOW_SIZE[0] - grid_full_x) / 2
+    coor_y = y + (consts.WINDOW_SIZE[1] - grid_full_y) / 2
 
     #美观起见，略微偏移一些
     return int(coor_x) + consts.FONT_OFFSET_X, int(coor_y) + consts.FONT_OFFSET_Y
@@ -48,8 +48,8 @@ def coor_to_position(coor,grid_x,grid_y):
     coor_x = coor[0]
     coor_y = coor[1]
 
-    old_x = coor_x - (consts.WINDOW_WIDTH - grid_full_x) / 2
-    old_y = coor_y - (consts.WINDOW_HIGH - grid_full_y) / 2
+    old_x = coor_x - (consts.WINDOW_SIZE[0] - grid_full_x) / 2
+    old_y = coor_y - (consts.WINDOW_SIZE[1] - grid_full_y) / 2
 
     x = old_x / (consts.GRID_WIDTH + consts.INTERVAL)
     y = old_y / (consts.GRID_HIGH + consts.INTERVAL)
@@ -122,4 +122,5 @@ if __name__ == '__main__':
     excel_tool = ExcelTool()
     file_path = 'config.xlsx'
     data = excel_tool.getAllSheetData(file=file_path)
-    excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\eyesexamgame')
+    # excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\eyesexamgame')
+    excel_tool.saveDataByJson(data=data, file=file_path, outputPath='E:\\pytest\\game\\venv\\eyesexamgame')

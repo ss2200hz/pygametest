@@ -26,6 +26,7 @@ class Numbers:
 
     def set_num(self,num):
         self.num = num
+        self.text = num
 
     def set_position(self,position):
         self.position = position
