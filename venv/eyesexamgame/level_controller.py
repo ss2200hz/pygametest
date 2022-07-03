@@ -20,6 +20,9 @@ def get_data_by_id(level_id):
 
 level_data = None
 
+#备份数据列表
+content_list_copy = []
+
 #根据id加载关卡
 def init_level(level_id):
     data = get_data_by_id(level_id)
@@ -48,6 +51,8 @@ def init_level(level_id):
         char_list = text_controller.get_text_by_config(data['random_min'],data['random_max'])
         coor_list = numbers_controller.create_random_coor((data['width'],data['high']),len(char_list))
         content_list = text_controller.init_content_list(config_data=text_data,char_list=char_list,coor_list=coor_list)
+        global content_list_copy
+        content_list_copy = content_list.copy()
 
     #生成地图方格
     grid_list = num_grid.init_all_grid(width=data['width'], high=data['high'],
@@ -57,18 +62,20 @@ def init_level(level_id):
 
     return content_list, grid_list
 
+
+
 #格子点击判断,方格对象 数据列表 数据列表位置
-def grid_click_judge(grid,content_list,level_type):
+def grid_click_judge(grid,content_list,level_type,sign):
+    # print(len(content_list_copy))
     x = get_content_index(grid,content_list)
     if level_type == 1:
         return x == 0,x
     #文字类关卡的判断处理
     elif level_type == 2:
-        repeat_list = text_controller.get_repeat_obj_list(content_list)
-        for i in repeat_list[0]:
-            if i==x:
-                return True,x
-        return False,x
+        if x < 0:
+            return False, x
+        text = grid.content.text
+        return text == content_list_copy[sign].text,x
 
 #判断点击位置对应的内容
 def get_content_index(grid,content_list):

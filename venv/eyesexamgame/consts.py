@@ -1,7 +1,7 @@
 IMG_DIR = "..\\..\\imgs\\"
 
 #测试用
-is_test = False
+is_test = True
 
 #窗口大小
 WINDOW_SIZE = (1280,960)
