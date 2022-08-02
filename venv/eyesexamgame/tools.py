@@ -6,7 +6,7 @@ import consts
 #初始化配置
 def init_config():
     config_path = "config.json"
-    with open(config_path,'r') as file:
+    with open(config_path,'r',encoding='utf-8') as file:
         config_data = json.load(file)
     return config_data
 
@@ -122,4 +122,5 @@ if __name__ == '__main__':
     excel_tool = ExcelTool()
     file_path = 'config.xlsx'
     data = excel_tool.getAllSheetData(file=file_path)
-    excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\eyesexamgame')
+    # excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\eyesexamgame')
+    excel_tool.saveDataByJson(data=data, file=file_path, outputPath='E:\\pytest\\game\\venv\\eyesexamgame')

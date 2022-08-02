@@ -5,6 +5,7 @@ class NumGrid:
     def __init__(self,picture,clicked_pic):
         self.picture = pygame.image.load(consts.IMG_DIR + picture)
         self.clicked_pic = clicked_pic
+        self.not_clicked_pic = picture
         self.is_clicked = False
         self.content = None
 
@@ -17,7 +18,7 @@ class NumGrid:
             self.picture = pygame.image.load(consts.IMG_DIR + self.clicked_pic)
             self.is_clicked = True
         else:
-            self.picture = pygame.image.load(consts.IMG_DIR + self.picture)
+            self.picture = pygame.image.load(consts.IMG_DIR + self.not_clicked_pic)
             self.is_clicked = False
 
     #根据坐标设置可点击像素范围

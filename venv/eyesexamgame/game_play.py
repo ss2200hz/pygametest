@@ -12,6 +12,7 @@ is_over = False
 #全部通过
 is_win = False
 
+click_times = 0
 
 #重置游戏
 def reset_game():
@@ -22,9 +23,11 @@ def reset_game():
     global level
     global level_data
     global level_start_time
+    global click_times
 
     is_over = False
     is_pass = False
+    click_times = 0
 
     level = 1
     content_list, grid_list = level_controller.init_level(level)
@@ -34,17 +37,19 @@ def reset_game():
 #点击事件处理
 def on_mouse_clicked(pos):
     global is_over
+    global click_times
     #数字消失后可点击
     if now_time - level_start_time - consts.READY_TIME * 1000 >= level_data['display_time'] * 1000 or consts.is_test:
         grid = num_grid.get_touch_grid(tools.coor_to_position(coor=pos,
                                                               grid_x=level_data['width'],
                                                               grid_y=level_data['high']),grid_list=grid_list)
         if grid:
-            is_Right = level_controller.grid_click_judge(grid,content_list,level_data['level_type'])
+            is_Right,x = level_controller.grid_click_judge(grid,content_list,level_data['level_type'],click_times)
             if not is_Right:
                 is_over = True
             else:
-                del content_list[0]
+                del content_list[x]
+                click_times += 1
 
 #通关判定
 def pass_level():
@@ -55,6 +60,7 @@ def pass_level():
     global is_win
     global level_data
     global level_start_time
+    global click_times
 
     if len(content_list) <= 0:
         if level < level_controller.level_num:
@@ -62,6 +68,7 @@ def pass_level():
             content_list, grid_list = level_controller.init_level(level)
             level_data = level_controller.level_data #刷新关卡数据
             level_start_time = pygame.time.get_ticks() #重新开始计算关卡时间
+            click_times = 0
         else:
             is_over = True
             is_win = True
@@ -77,9 +84,12 @@ def update():
                                                      grid_x=level_data['width'],
                                                      grid_y=level_data['high']))
     #显示内容
+    # n=0
     for i in content_list:
-        font_text = str(i.num)
+        font_text = str(i.text)
+        # font_text = str(i.text) + str(n)
         font_type = pygame.font.SysFont(i.type,i.size)
+        # print(i.type)
         font = font_type.render(font_text,1,i.color)
         if not consts.is_test:
             if now_time - level_start_time - consts.READY_TIME * 1000 < level_data['display_time'] * 1000  or is_over:
@@ -90,12 +100,13 @@ def update():
             screen.blit(font, tools.number_position_to_coor(position=i.position,
                                                            grid_x=level_data['width'],
                                                            grid_y=level_data['high']))
+        # n += 1
     if is_over:
         if is_win:
             final_text = consts.WIN_TEXT
         else:
             final_text = consts.LOSE_TEXT
-        ft2_font = pygame.font.SysFont("Arial", 50)  # 设置文字字体
+        ft2_font = pygame.font.SysFont(consts.FONT_HEITI, 50)  # 设置文字字体
         ft2_surf = ft2_font.render(final_text, 1, (253, 177, 6))  # 设置文字颜色
         screen.blit(ft2_surf, [int(screen.get_width() / 2) - int(ft2_surf.get_width() / 2)
             ,int(screen.get_height() / 2) - int(ft2_surf.get_height() / 2)])  # 设置文字显示位置
