@@ -8,7 +8,7 @@ player = player.Player()
 #显示刷新
 def update():
     screen.fill((0,0,0))
-
+    #更新玩家位置
     player.move()
     screen.blit(player.player_img,player.position)
 
