@@ -5,14 +5,33 @@ from Rockgame import player,consts,bullet
 
 player = player.Player()
 
+
 #显示刷新
 def update():
     screen.fill((0,0,0))
     #更新玩家位置
     player.move()
     screen.blit(player.player_img,player.position)
-
+    #显示所有子弹
+    draw_bullets()
     pygame.display.update()
+
+#显示所有子弹
+def draw_bullets():
+    for i in bullet.bullet_builder.bullet_list:
+        if i.is_removed == True:
+            continue
+        if i.type == 1:
+            #子弹颜色，暂时写死
+            color = (30,144,255)
+            #三角形各顶点坐标
+            a = i.position
+            b = (i.position[0],i.position[1] + i.size[1])
+            c = (i.position[0] + i.size[0],i.position[1] + i.size[1]/2)
+            pygame.draw.polygon(screen,color,[a,b,c],2)
+            i.move()
+            # print(i.position)
+
 
 if __name__ == '__main__':
     pygame.init()                            # 初始化pygame
@@ -28,24 +47,32 @@ if __name__ == '__main__':
 
             #键盘操作
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     player.add_speed((0,-1))
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     player.add_speed((1,0))
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     player.add_speed((0,1))
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     player.add_speed((-1,0))
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     player.add_speed((0, 1))
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     player.add_speed((-1, 0))
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     player.add_speed((0, -1))
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     player.add_speed((1, 0))
+            #鼠标操作
+            if event.type == pygame.MOUSEMOTION and event.buttons[0]:
+                x,y = event.pos
+                player.shoot((x,y))
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                x, y = event.pos
+                player.shoot((x, y))
 
         update()
 
