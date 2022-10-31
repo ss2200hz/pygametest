@@ -11,6 +11,7 @@ def update():
     screen.fill((0,0,0))
     #更新玩家位置
     player.move()
+    player.shoot(mouse_position)
     screen.blit(player.player_img,player.position)
     #显示所有子弹
     draw_bullets()
@@ -38,6 +39,9 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()              # 设置时钟
     screen = pygame.display.set_mode(consts.WINDOW_SIZE)   # 显示窗口
 
+
+    #鼠标位置
+    mouse_position = (0,0)
     while True:
         #限定帧率为60帧
         clock.tick(60)
@@ -65,14 +69,20 @@ if __name__ == '__main__':
                     player.add_speed((0, -1))
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     player.add_speed((1, 0))
-            #鼠标操作
-            if event.type == pygame.MOUSEMOTION and event.buttons[0]:
-                x,y = event.pos
-                player.shoot((x,y))
+                    
+            # #鼠标操作
+            if event.type == pygame.MOUSEMOTION:
+                if event.buttons[0] == 1:
+                    mouse_position = event.pos
 
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                x, y = event.pos
-                player.shoot((x, y))
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_position = event.pos
+                    player.is_shoot = True
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    player.is_shoot = False
 
         update()
 

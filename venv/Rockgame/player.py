@@ -46,8 +46,9 @@ class Player:
         self.position = (self.position[0] + self.speed[0], self.position[1] + self.speed[1])
 
     def shoot(self,pos):
-        #连续射击间隔
-        if pygame.time.get_ticks() - self.last_shoot_time >= 300:
-            _bullet.bullet_builder.create_bullet(1,self.position,(20,20),pos)
-            self.last_shoot_time = pygame.time.get_ticks()
-            print(len(_bullet.bullet_builder.bullet_list))
+        if self.is_shoot:
+            #连续射击间隔
+            if pygame.time.get_ticks() - self.last_shoot_time >= 300:
+                _bullet.bullet_builder.create_bullet(1,self.position,(20,20),pos)
+                self.last_shoot_time = pygame.time.get_ticks()
+                print(len(_bullet.bullet_builder.bullet_list))
