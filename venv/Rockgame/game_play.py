@@ -27,8 +27,8 @@ def draw_bullets():
             color = (30,144,255)
             #三角形各顶点坐标
             a = i.position
-            b = (i.position[0],i.position[1] + i.size[1])
-            c = (i.position[0] + i.size[0],i.position[1] + i.size[1]/2)
+            b = (i.position[0],i.position[1] + i._rect.size[1])
+            c = (i.position[0] + i._rect.size[0],i.position[1] + i._rect.size[1]/2)
             pygame.draw.polygon(screen,color,[a,b,c],2)
             i.move()
             # print(i.position)
@@ -79,6 +79,7 @@ if __name__ == '__main__':
                 if event.button == 1:
                     mouse_position = event.pos
                     player.is_shoot = True
+
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
