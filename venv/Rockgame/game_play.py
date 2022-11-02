@@ -5,6 +5,7 @@ from Rockgame import player,consts,bullet
 
 player = player.Player()
 
+is_pause = False
 
 #显示刷新
 def update():
@@ -48,7 +49,12 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-
+            #P键暂停
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    is_pause = ~is_pause
+            if is_pause:
+                break
             #键盘操作
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -69,7 +75,7 @@ if __name__ == '__main__':
                     player.add_speed((0, -1))
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     player.add_speed((1, 0))
-                    
+
             # #鼠标操作
             if event.type == pygame.MOUSEMOTION:
                 if event.buttons[0] == 1:
@@ -85,5 +91,6 @@ if __name__ == '__main__':
                 if event.button == 1:
                     player.is_shoot = False
 
-        update()
+        if not is_pause:
+            update()
 

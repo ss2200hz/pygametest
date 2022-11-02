@@ -2,17 +2,17 @@ import pygame,math
 from Rockgame import consts
 
 class Transform:
-    def __init__(self,position=(0,0),base_speed=1,rect_size = (20,20)):
+    def __init__(self,position=(0,0),base_speed=1,rect_size = (20,20),aim_point=None):
         # 位置
         self.position = position
         # 碰撞矩形
         self._rect = pygame.Rect(self.position, rect_size)
-        #速度向量
-        self.speed = (0,0)
         #速度标量
         self.base_speed = base_speed
         #加速度
         self.acceleration = (0,0)
+        #速度向量
+        self.init_speed(aim_point)
 
     #每帧加速度，需外部调用
     def set_acceleration(self,victor):
@@ -22,7 +22,16 @@ class Transform:
     def set_speed(self):
         self.speed = (self.speed[0] + self.acceleration[0], self.speed[1] + self.acceleration[1])
 
+    #初始化速度值
+    def init_speed(self,aim_point=None):
+        if not aim_point:
+            self.speed = (0,0)
+            return
+        x = aim_point[0] - self.position[0]
+        y = aim_point[1] - self.position[1]
+        l = math.sqrt(x * x + y * y)
 
+        self.speed = (self.base_speed * x/l,self.base_speed * y/l)
 
     def add_speed(self,victor):
         x = self.speed[0]

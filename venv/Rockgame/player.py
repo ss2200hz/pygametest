@@ -7,7 +7,7 @@ class Player(physics.Transform):
         #初始化图片
         self.player_img = pygame.image.load(consts.IMG_DIR + "player1.png")
         #继承物理移动效果
-        super(Player,self).__init__(base_speed=1,rect_size=consts.PLAYER_IMG_SIZE)
+        super(Player,self).__init__(position=(0,0),base_speed=1,rect_size=consts.PLAYER_IMG_SIZE)
 
         self.is_shoot = False
 
@@ -31,6 +31,6 @@ class Player(physics.Transform):
         if self.is_shoot:
             #连续射击间隔
             if pygame.time.get_ticks() - self.last_shoot_time >= 300:
-                _bullet.bullet_builder.create_bullet(1,self.position,(20,20),pos)
+                _bullet.bullet_builder.create_bullet(1,self.position,pos)
                 self.last_shoot_time = pygame.time.get_ticks()
                 print(len(_bullet.bullet_builder.bullet_list))

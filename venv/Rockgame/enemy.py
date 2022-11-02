@@ -2,32 +2,23 @@ import pygame
 from Rockgame import consts,player,physics
 
 class Enemy(physics.Transform):
-    def __init__(self,type=1,position=(0,0),size=(20,20)):
-        self.hp = 1
-        self.type = 1
-        super(Enemy,self).__init__(position=position,rect_size=size)
+    def __init__(self,id,type,hp,buff,speed,position,size=(20,20),player_position=(0,0)):
+        self.id = id
+        self.type = type
+        self.hp = hp
+        self.buff = []
+        if buff:
+            for i in buff:
+                self.buff.append(i)
+
+        super(Enemy,self).__init__(base_speed=speed,position=position,rect_size=size,aim_point=player_position)
         self.is_dead = False
-    
+
+    def set_speed(self,player_point):
+        super(Enemy,self).init_speed(aim_point=player_point)
+
     def move(self,pos):
-        self.set_speed(pos)
+
         super(Enemy, self).move()
-        
-class EnemyBuilder:
-    def __init__(self):
-        self.enemy_list = []
-        
-    def create_enmemy(self,type,position):
-        if len(self.enemy_list) <= 0:
-            enemy = enemy(type=type,position=position)
-            self.enemy_list.append(enemy)
-            return enemy
-        else:
-            for i in self.enemy_list:
-                if i.is_removed:
-                    i.type = type
-                    i.position = position
-                    i.set_speed(aim)
-                    return i
-            enemy = enemy(type=type, position=position)
-            self.enemy_list.append(enemy)
-            return enemy
+
+

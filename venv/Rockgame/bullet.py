@@ -1,23 +1,20 @@
 import pygame
 import math
-from Rockgame import bullet,consts,physics
+from Rockgame import bullet,consts,physics,tools
+
+bullet_config = tools.get_config_by_name('Bullets')
 
 class Bullet(physics.Transform):
     #初始化，类型，起始位置，大小，目标点
-    def __init__(self,type,position,size,pos=None):
+    def __init__(self,type,damage,speed,size,start_pos,end_pos=None):
         #子弹类型
         self.type = type
         #伤害值
-        self.damage = 1
+        self.damage = damage
         # 继承物理移动效果
-        super(Bullet,self).__init__(position=position,base_speed=5,rect_size=size)
+        super(Bullet,self).__init__(position=start_pos,base_speed=speed,rect_size=size,aim_point=end_pos)
         #是否已被销毁
         self.is_removed = False
-
-        if self.type == 1:
-            self.speed = (self.base_speed * self.get_direct(pos)[0], self.base_speed * self.get_direct(pos)[1])
-        elif self.type == 2:
-            self.speed = (1,0)
 
     def is_edge(self):
         if self.position[0] < 0 or self.position[0] > consts.WINDOW_SIZE[0] - self._rect.size[0] \
@@ -40,36 +37,39 @@ class Bullet(physics.Transform):
         super(Bullet,self).move()
 
     #重置状态
-    def reset_status(self,type,position,size,pos):
-        self.type = type
-        self.position = position
-        self.size = size
-        self.is_removed = False
-        if self.type == 1:
-            self.speed = (self.base_speed * self.get_direct(pos)[0], self.base_speed * self.get_direct(pos)[1])
-        elif self.type == 2:
-            self.speed = (3,0)
+    def reset_status(self,type,damage,speed,size,start_pos,end_pos=None):
+        self.__init__(type,damage,speed,size,start_pos,end_pos)
+
+
+
 
 #子弹构建工厂
 class BulletBuilder:
+
+    def get_bullet_data_by_id(self,id):
+        for d in bullet_config:
+            if d['id'] == id:
+                return d
+
     def __init__(self):
         #子弹池
         self.bullet_list = []
     #创建子弹对象
-    def create_bullet(self,type,position,size,pos):
-        if len(self.bullet_list) <= 0:
-            bullet = Bullet(type=type,position=position,size=size,pos=pos)
-            self.bullet_list.append(bullet)
-            return bullet
+    def create_bullet(self,bullet_id,start_pos,end_pos):
+        config_dict = self.get_bullet_data_by_id(bullet_id)
+        type = config_dict['type']
+        damage = config_dict['damage']
+        speed = config_dict['speed']
+        size = (int(config_dict['size'][0]),int(config_dict['size'][1]))
 
-        else:
+        if len(self.bullet_list) > 0:
             for i in self.bullet_list:
                 if i.is_removed:
-                    i.reset_status(type,position,size,pos)
+                    i.__init__(type=type,damage=damage,speed=speed,size=size,start_pos=start_pos,end_pos=end_pos)
                     return i
-            bullet = Bullet(type=type, position=position, size=size,pos=pos)
-            self.bullet_list.append(bullet)
-            return bullet
+        bullet = Bullet(type=type,damage=damage,speed=speed,size=size,start_pos=start_pos,end_pos=end_pos)
+        self.bullet_list.append(bullet)
+        return bullet
 
 #构建工厂实例
 bullet_builder = BulletBuilder()
