@@ -35,8 +35,8 @@ class map:
 
     def create_enemy(self):
 
-        #生成的时间
-        self.create_time = pygame.time.get_ticks()
+        #生成敌人的时间
+        self.create_enemy_time = pygame.time.get_ticks()
 
 
 
