@@ -1,24 +1,31 @@
 import pygame
-from Rockgame import consts,player,physics
+from Rockgame import consts,player,physics,tools
+
+enemy_config = tools.get_config_by_name('Enemy')
+def get_enemy_data(id):
+    for i in enemy_config:
+        if i['id'] == id:
+            return i
 
 class Enemy(physics.Transform):
-    def __init__(self,id,type,hp,buff,speed,position,size=(20,20),player_position=(0,0)):
+    def __init__(self,id,position,player_position=(0,0)):
         self.id = id
-        self.type = type
-        self.hp = hp
-        self.buff = []
-        if buff:
-            for i in buff:
-                self.buff.append(i)
+        data = get_enemy_data(id)
+        self.type = data['type']
+        self.hp = data['hp']
+        self.buff = data['buff']
 
-        super(Enemy,self).__init__(base_speed=speed,position=position,rect_size=size,aim_point=player_position)
+        super(Enemy,self).__init__(base_speed=data['speed'],position=position,rect_size=tuple(data['size']),aim_point=player_position)
         self.is_dead = False
 
-    def set_speed(self,player_point):
-        super(Enemy,self).init_speed(aim_point=player_point)
+    # def set_speed(self,player_point):
+    #     super(Enemy,self).init_speed(aim_point=player_point)
 
-    def move(self,pos):
-
+    def move(self,player_point):
+        super(Enemy, self).init_speed(aim_point=player_point)
         super(Enemy, self).move()
+
+    def on_colliderect(self,_obj=None):
+        print("enemy")
 
 

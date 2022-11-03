@@ -30,8 +30,9 @@ class Transform:
         x = aim_point[0] - self.position[0]
         y = aim_point[1] - self.position[1]
         l = math.sqrt(x * x + y * y)
+        if l >0:
+            self.speed = (self.base_speed * x/l,self.base_speed * y/l)
 
-        self.speed = (self.base_speed * x/l,self.base_speed * y/l)
 
     def add_speed(self,victor):
         x = self.speed[0]
@@ -50,6 +51,7 @@ class Transform:
 
     #发生碰撞后的行为
     def on_colliderect(self,_obj=None):
+        print("boom!")
         return
 
     #到达边界的行为

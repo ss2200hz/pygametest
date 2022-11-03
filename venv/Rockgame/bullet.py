@@ -36,12 +36,10 @@ class Bullet(physics.Transform):
             self.set_acceleration(a)
         super(Bullet,self).move()
 
-    #重置状态
-    def reset_status(self,type,damage,speed,size,start_pos,end_pos=None):
-        self.__init__(type,damage,speed,size,start_pos,end_pos)
-
-
-
+    
+    def on_colliderect(self,_obj=None):
+        self.is_removed = True
+        super(Bullet, self).on_colliderect()
 
 #子弹构建工厂
 class BulletBuilder:

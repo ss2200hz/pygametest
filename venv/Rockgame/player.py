@@ -3,11 +3,11 @@ from Rockgame import bullet as _bullet,consts,physics
 
 
 class Player(physics.Transform):
-    def __init__(self):
+    def __init__(self,position = (0,0)):
         #初始化图片
         self.player_img = pygame.image.load(consts.IMG_DIR + "player1.png")
         #继承物理移动效果
-        super(Player,self).__init__(position=(0,0),base_speed=1,rect_size=consts.PLAYER_IMG_SIZE)
+        super(Player,self).__init__(position=position,base_speed=1,rect_size=consts.PLAYER_IMG_SIZE)
 
         self.is_shoot = False
 

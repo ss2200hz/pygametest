@@ -40,6 +40,45 @@
                 "buff": [
                     "None"
                 ]
+            },
+            {
+                "id": 2,
+                "type": 1,
+                "hp": 5,
+                "speed": 1,
+                "size": [
+                    10,
+                    11
+                ],
+                "buff": [
+                    "None"
+                ]
+            },
+            {
+                "id": 3,
+                "type": 1,
+                "hp": 5,
+                "speed": 1,
+                "size": [
+                    10,
+                    12
+                ],
+                "buff": [
+                    "None"
+                ]
+            },
+            {
+                "id": 4,
+                "type": 1,
+                "hp": 5,
+                "speed": 1,
+                "size": [
+                    10,
+                    13
+                ],
+                "buff": [
+                    "None"
+                ]
             }
         ]
     },
@@ -52,7 +91,7 @@
                     10,
                     10
                 ],
-                "enemy_list": [
+                "enemy_id": [
                     1,
                     2,
                     3,
