@@ -1,7 +1,7 @@
 import sys
 sys.path.append('E:\\pytest\\game\\venv')
 import pygame
-from Rockgame import player,consts,bullet,enemy,map
+from Rockgame import player,consts,bullet,enemy,map,tools
 
 _map = map.Map(1)
 
@@ -58,11 +58,11 @@ def check_colliderect():
             for j in _map.enemy_list:
                 if not j.is_dead:
                     if i._rect.colliderect(j._rect):
-                        i.on_colliderect()
-                        j.on_colliderect()
+                        i.on_colliderect(tools.GameObjectType.Enemy)
+                        j.on_colliderect(tools.GameObjectType.Bullet)
                     if j._rect.colliderect(_map._player._rect):
-                        j.on_colliderect()
-                        player.on_colliderect()
+                        j.on_colliderect(tools.GameObjectType.Player)
+                        player.on_colliderect(tools.GameObjectType.Enemy)
 
 if __name__ == '__main__':
     pygame.init()                            # 初始化pygame

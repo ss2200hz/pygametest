@@ -51,7 +51,7 @@ class Transform:
 
     #发生碰撞后的行为
     def on_colliderect(self,_obj=None):
-        print("boom!")
+        print(str(_obj) + "boom!")
         return
 
     #到达边界的行为

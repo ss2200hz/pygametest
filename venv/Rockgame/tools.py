@@ -1,7 +1,14 @@
 import json
 import openpyxl
 import os
+from enum import Enum
 from Rockgame import consts
+
+class GameObjectType(Enum):
+    Player = 1
+    Enemy = 2
+    Wall = 3
+    Bullet = 4
 
 #初始化配置
 def init_config():

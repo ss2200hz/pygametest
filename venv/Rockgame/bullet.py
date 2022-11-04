@@ -16,6 +16,10 @@ class Bullet(physics.Transform):
         #是否已被销毁
         self.is_removed = False
 
+    #设置攻击目标类型
+    def set_attack_aim(self,aim):
+        self.attack_aim = aim
+
     def is_edge(self):
         if self.position[0] < 0 or self.position[0] > consts.WINDOW_SIZE[0] - self._rect.size[0] \
             or self.position[1] < 0 or self.position[1] > consts.WINDOW_SIZE[1] - self._rect.size[1]:
@@ -31,7 +35,6 @@ class Bullet(physics.Transform):
             sin_speed = x/math.sqrt(x*x + y*y)
             cos_speed = y/math.sqrt(x*x + y*y)
             a = (0.03*cos_speed,0.03*sin_speed)
-            print(a)
             print(self.speed)
             self.set_acceleration(a)
         super(Bullet,self).move()
@@ -53,7 +56,7 @@ class BulletBuilder:
         #子弹池
         self.bullet_list = []
     #创建子弹对象
-    def create_bullet(self,bullet_id,start_pos,end_pos):
+    def create_bullet(self,bullet_id,start_pos,end_pos,attack_aim=tools.GameObjectType.Enemy):
         config_dict = self.get_bullet_data_by_id(bullet_id)
         type = config_dict['type']
         damage = config_dict['damage']
@@ -64,8 +67,10 @@ class BulletBuilder:
             for i in self.bullet_list:
                 if i.is_removed:
                     i.__init__(type=type,damage=damage,speed=speed,size=size,start_pos=start_pos,end_pos=end_pos)
+                    i.set_attack_aim(attack_aim)
                     return i
         bullet = Bullet(type=type,damage=damage,speed=speed,size=size,start_pos=start_pos,end_pos=end_pos)
+        bullet.set_attack_aim(attack_aim)
         self.bullet_list.append(bullet)
         return bullet
 
