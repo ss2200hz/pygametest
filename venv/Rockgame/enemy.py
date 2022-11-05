@@ -1,5 +1,5 @@
 import pygame
-from Rockgame import consts,player,physics,tools
+from Rockgame import physics,tools
 
 enemy_config = tools.get_config_by_name('Enemy')
 def get_enemy_data(id):
@@ -26,6 +26,22 @@ class Enemy(physics.Transform):
         super(Enemy, self).move()
 
     def on_colliderect(self,_obj=None):
-        print("enemy")
+        if _obj.__class__.__name__ == 'Bullet':
+            if _obj.type == self.type:
+                damage = _obj.damage
+                self.hp -= damage
+                if self.hp <= 0:
+                    self.is_dead = True
+            else:
+                self.grow_up()
+        elif _obj.__class__.__name__ == 'Player':
+            self.is_dead = True
 
-
+    #放大
+    def grow_up(self):
+        #每次增大系数
+        grow_x_num = 5
+        grow_y_num = 5
+        x = self._rect.size[0]
+        y = self._rect.size[1]
+        self._rect = pygame.Rect(self.position,(x+grow_x_num,y+grow_y_num))

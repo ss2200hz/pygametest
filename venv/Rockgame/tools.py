@@ -1,14 +1,10 @@
 import json
 import openpyxl
 import os
-from enum import Enum
-from Rockgame import consts
+# from enum import Enum
+# from Rockgame import consts
 
-class GameObjectType(Enum):
-    Player = 1
-    Enemy = 2
-    Wall = 3
-    Bullet = 4
+
 
 #初始化配置
 def init_config():
@@ -23,7 +19,38 @@ def get_config_by_name(name):
     for d in config_data:
         if d['sheet_name'] == name:
             return d['data']
-    raise 'Not Found Map config!'
+    raise Exception('Not Found Map config!')
+
+#根据外框矩形计算敌人顶点坐标
+def caculate_enemy_points(rect,type=1):
+    if type == 1:
+        offset = int(rect.size[1] / 3)
+        a = (rect[0] + offset, rect[1] + offset)
+        b = (a[0], rect[1]+rect.size[1] - offset)
+        c = (rect[0]+rect.size[0] - offset, a[1] + (b[1] - a[1]) / 2)
+        return [a,b,c]
+    elif type == 2:
+        offset = int(rect.size[1] / 3)
+        a = (rect[0] + offset, rect[1] + rect.size[1] / 2)
+        b = (rect[0] + rect.size[0] / 2, rect[1] + offset)
+        c = (rect[0] + rect.size[0] / 2, rect[1] + rect.size[1] - offset)
+        d = (rect[0] + rect.size[0] - offset, rect[1] + rect.size[1] / 2)
+        return [a, b, c, d]
+
+#根据外框矩形计算子弹顶点坐标
+def caculate_bullet_points(rect,type=1):
+    if type == 1:
+        a = (rect[0] , rect[1] )
+        b = (a[0], rect[1]+rect.size[1])
+        c = (rect[0]+rect.size[0] , a[1] + (b[1] - a[1]) / 2)
+        return [a,b,c]
+    elif type == 2:
+        a = (rect[0],rect[1] + rect.size[1]/2)
+        b = (rect[0]+rect.size[0]/2,rect[1])
+        c = (rect[0]+rect.size[0]/2,rect[1]+rect.size[1])
+        d = (rect[0] + rect.size[0],rect[1]+rect.size[1]/2)
+        # print([a,b,c,d])
+        return [a,b,c,d]
 
 #Excel工具
 class ExcelTool:
@@ -109,5 +136,5 @@ if __name__ == '__main__':
     excel_tool = ExcelTool()
     file_path = 'config.xlsx'
     data = excel_tool.getAllSheetData(file=file_path)
-    excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\Rockgame')
-    # excel_tool.saveDataByJson(data=data, file=file_path, outputPath='E:\\pytest\\game\\venv\\Rockgame')
+    # excel_tool.saveDataByJson(data=data,file=file_path,outputPath='D:\\pytest\\game\\venv\\Rockgame')
+    excel_tool.saveDataByJson(data=data, file=file_path, outputPath='E:\\pytest\\game\\venv\\Rockgame')

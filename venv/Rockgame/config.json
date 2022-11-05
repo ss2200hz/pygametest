@@ -22,6 +22,16 @@
                     10,
                     10
                 ]
+            },
+            {
+                "id": 2,
+                "type": 2,
+                "damage": 1,
+                "speed": 5,
+                "size": [
+                    10,
+                    11
+                ]
             }
         ]
     },
@@ -31,11 +41,11 @@
             {
                 "id": 1,
                 "type": 1,
-                "hp": 5,
+                "hp": 3,
                 "speed": 1,
                 "size": [
-                    10,
-                    10
+                    40,
+                    40
                 ],
                 "buff": [
                     "None"
@@ -44,11 +54,11 @@
             {
                 "id": 2,
                 "type": 1,
-                "hp": 5,
+                "hp": 4,
                 "speed": 1,
                 "size": [
-                    10,
-                    11
+                    40,
+                    40
                 ],
                 "buff": [
                     "None"
@@ -60,8 +70,8 @@
                 "hp": 5,
                 "speed": 1,
                 "size": [
-                    10,
-                    12
+                    40,
+                    40
                 ],
                 "buff": [
                     "None"
@@ -70,11 +80,63 @@
             {
                 "id": 4,
                 "type": 1,
+                "hp": 6,
+                "speed": 1,
+                "size": [
+                    40,
+                    40
+                ],
+                "buff": [
+                    "None"
+                ]
+            },
+            {
+                "id": 5,
+                "type": 2,
+                "hp": 3,
+                "speed": 1,
+                "size": [
+                    40,
+                    40
+                ],
+                "buff": [
+                    "None"
+                ]
+            },
+            {
+                "id": 6,
+                "type": 2,
+                "hp": 4,
+                "speed": 1,
+                "size": [
+                    40,
+                    40
+                ],
+                "buff": [
+                    "None"
+                ]
+            },
+            {
+                "id": 7,
+                "type": 2,
                 "hp": 5,
                 "speed": 1,
                 "size": [
-                    10,
-                    13
+                    40,
+                    40
+                ],
+                "buff": [
+                    "None"
+                ]
+            },
+            {
+                "id": 8,
+                "type": 2,
+                "hp": 6,
+                "speed": 1,
+                "size": [
+                    40,
+                    40
                 ],
                 "buff": [
                     "None"
@@ -93,17 +155,19 @@
                 ],
                 "enemy_id": [
                     1,
-                    2,
-                    3,
-                    4
+                    5
                 ],
                 "enemy_position": [
+                    20,
+                    16,
+                    45,
+                    90,
                     1
                 ],
-                "enemy_num": 1,
+                "enemy_num": 9,
                 "player_position": [
-                    0,
-                    0
+                    300,
+                    400
                 ],
                 "wall_list": [
                     1

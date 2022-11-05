@@ -1,6 +1,6 @@
 import pygame
 import math
-from Rockgame import bullet,consts,physics,tools
+from Rockgame import consts,physics,tools
 
 bullet_config = tools.get_config_by_name('Bullets')
 
@@ -27,22 +27,22 @@ class Bullet(physics.Transform):
         super(Bullet,self).is_edge()
 
     def move(self):
-        if self.type == 1:
-            pass
-        elif self.type == 2:
-            x = self.speed[0]
-            y = self.speed[1]
-            sin_speed = x/math.sqrt(x*x + y*y)
-            cos_speed = y/math.sqrt(x*x + y*y)
-            a = (0.03*cos_speed,0.03*sin_speed)
-            print(self.speed)
-            self.set_acceleration(a)
+        # if self.type == 1:
+        #     pass
+        # elif self.type == 2:
+        #     x = self.speed[0]
+        #     y = self.speed[1]
+        #     sin_speed = x/math.sqrt(x*x + y*y)
+        #     cos_speed = y/math.sqrt(x*x + y*y)
+        #     a = (0.03*cos_speed,0.03*sin_speed)
+        #     # print(self.speed)
+        #     self.set_acceleration(a)
         super(Bullet,self).move()
 
     
     def on_colliderect(self,_obj=None):
         self.is_removed = True
-        super(Bullet, self).on_colliderect()
+        # super(Bullet, self).on_colliderect()
 
 #子弹构建工厂
 class BulletBuilder:
@@ -56,7 +56,7 @@ class BulletBuilder:
         #子弹池
         self.bullet_list = []
     #创建子弹对象
-    def create_bullet(self,bullet_id,start_pos,end_pos,attack_aim=tools.GameObjectType.Enemy):
+    def create_bullet(self,bullet_id,start_pos,end_pos,attack_aim=consts.GameObjectType.Enemy):
         config_dict = self.get_bullet_data_by_id(bullet_id)
         type = config_dict['type']
         damage = config_dict['damage']

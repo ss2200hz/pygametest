@@ -1,6 +1,6 @@
 import random
 
-import pygame
+# import pygame
 from Rockgame import enemy ,consts,player,tools
 
 
@@ -43,9 +43,16 @@ class Map:
     def create_player(self):
         self._player = player.Player(position=self.player_position)
 
+    #获取当前或者的敌人数量
+    def get_enemy_num(self):
+        num = 0
+        for i in self.enemy_list:
+            if not i.is_dead:
+                num += 1
+        return num
     #生成敌人
     def create_enemy(self):
-        if len(self.enemy_list) < self.enemy_num:
+        if self.get_enemy_num() < self.enemy_num:
             #随机一个可生成的敌人id
             id = self.enemy_id[random.randint(0,len(self.enemy_id)-1)]
             #随机一个位置
