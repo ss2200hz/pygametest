@@ -8,6 +8,9 @@ WINDOW_SIZE = (800,600)
 #角色图大小，暂时写死
 PLAYER_IMG_SIZE = (50,50)
 
+#gm开关
+IS_TEST = True
+
 #pygame字体
 FONT_XINXIMINGTI = "PMingLiU" #新细明体
 FONT_XIMINGTI = "MingLiU" #细明体：

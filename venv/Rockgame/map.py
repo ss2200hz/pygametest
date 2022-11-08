@@ -1,7 +1,7 @@
 import random
 
 # import pygame
-from Rockgame import enemy ,consts,player,tools
+from Rockgame import enemy ,consts,player,tools,wall
 
 
 
@@ -21,7 +21,7 @@ class Map:
         self.enemy_position = map_data['enemy_position']
         self.enemy_num = map_data['enemy_num']
         self.player_position = map_data['player_position']
-        self.wall_list = map_data['wall_list']
+        self.walls = map_data['walls']
         #初始化区块
         area_width = consts.WINDOW_SIZE[0]/self.size[0]
         area_heigh = consts.WINDOW_SIZE[1]/self.size[1]
@@ -34,11 +34,18 @@ class Map:
                 area_data = {'id':id,'start_point':start_point,'end_point':end_point}
                 self.area_list.append(area_data.copy())
         self.enemy_list = []
+        #加载所有墙壁
+        self.wall_list = []
+        for i in self.walls:
+            pos = self.change_area_to_position(i)[0]
+            _wall = wall.Wall(position=pos,size=(area_width,area_heigh))
+            self.wall_list.append(_wall)
 
     def change_area_to_position(self,area):
         for i in self.area_list:
             if i['id'] == area:
                 return i['start_point'],i['end_point']
+        print(area)
 
     def create_player(self):
         self._player = player.Player(position=self.player_position)

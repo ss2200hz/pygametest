@@ -16,7 +16,7 @@ def update():
     screen.fill((0,0,0))
     global is_over
     global create_enemy_time
-    if _player.is_dead:
+    if _player.is_dead and not consts.IS_TEST:
         is_over = True
     if not is_over:
         #更新玩家位置
@@ -26,6 +26,7 @@ def update():
         screen.blit(_player.player_img,_player.position)
         #显示所有子弹
         draw_bullets()
+        draw_walls()
         #定时生成敌人
         if pygame.time.get_ticks() - create_enemy_time > 1000:
             _map.create_enemy()
@@ -46,14 +47,15 @@ def draw_bullets():
     for i in bullet.bullet_builder.bullet_list:
         if i.is_removed == True:
             continue
+        color = i.color
         if i.type == 1:
-            #子弹颜色，暂时写死
-            color = (30,144,255)
+            pass
+            #子弹颜色
             #三角形各顶点坐标
             # print(i.position)
         elif i.type == 2:
+            pass
             # 子弹颜色，暂时写死
-            color = (30, 144, 255)
         pygame.draw.polygon(screen,color,tools.caculate_bullet_points(i._rect,i.type),2)
         i.move()
 
@@ -62,15 +64,22 @@ def draw_bullets():
 def draw_enemy():
     for i in _map.enemy_list:
         if not i.is_dead:
+            #绘制颜色
+            color = i.color
+            #外框矩形
+            pygame.draw.rect(screen,color,i._rect,2)
             if i.type == 1:
-                color = (30, 144, 255)
-                pygame.draw.rect(screen,color,i._rect,2)
                 pygame.draw.polygon(screen, color, tools.caculate_enemy_points(i._rect,i.type), 2)
             elif i.type == 2:
-                color = (30, 144, 255)
-                pygame.draw.rect(screen, color, i._rect, 2)
                 pygame.draw.polygon(screen, color, tools.caculate_enemy_points(i._rect, i.type), 2)
             i.move(_player.position)
+
+#显示所有墙壁
+def draw_walls():
+    for i in _map.wall_list:
+        if not i.is_destroed:
+            color = (30, 144, 255)
+            pygame.draw.rect(screen,color,i._rect,0)
 
 #碰撞检测
 def check_colliderect():

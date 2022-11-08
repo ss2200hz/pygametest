@@ -1,16 +1,16 @@
-import pygame
-import math
 from Rockgame import consts,physics,tools
 
 bullet_config = tools.get_config_by_name('Bullets')
 
 class Bullet(physics.Transform):
     #初始化，类型，起始位置，大小，目标点
-    def __init__(self,type,damage,speed,size,start_pos,end_pos=None):
+    def __init__(self,type,damage,speed,size,color,start_pos,end_pos=None):
         #子弹类型
         self.type = type
         #伤害值
         self.damage = damage
+        #显示的颜色
+        self.color = color
         # 继承物理移动效果
         super(Bullet,self).__init__(position=start_pos,base_speed=speed,rect_size=size,aim_point=end_pos)
         #是否已被销毁
@@ -61,15 +61,16 @@ class BulletBuilder:
         type = config_dict['type']
         damage = config_dict['damage']
         speed = config_dict['speed']
+        color = config_dict['color']
         size = (int(config_dict['size'][0]),int(config_dict['size'][1]))
 
         if len(self.bullet_list) > 0:
             for i in self.bullet_list:
                 if i.is_removed:
-                    i.__init__(type=type,damage=damage,speed=speed,size=size,start_pos=start_pos,end_pos=end_pos)
+                    i.__init__(type=type,damage=damage,speed=speed,size=size,color=color,start_pos=start_pos,end_pos=end_pos)
                     i.set_attack_aim(attack_aim)
                     return i
-        bullet = Bullet(type=type,damage=damage,speed=speed,size=size,start_pos=start_pos,end_pos=end_pos)
+        bullet = Bullet(type=type,damage=damage,speed=speed,size=size,color=color,start_pos=start_pos,end_pos=end_pos)
         bullet.set_attack_aim(attack_aim)
         self.bullet_list.append(bullet)
         return bullet

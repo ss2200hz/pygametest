@@ -14,6 +14,7 @@ class Enemy(physics.Transform):
         self.type = data['type']
         self.hp = data['hp']
         self.buff = data['buff']
+        self.color = data['color']
 
         super(Enemy,self).__init__(base_speed=data['speed'],position=position,rect_size=tuple(data['size']),aim_point=player_position)
         self.is_dead = False
