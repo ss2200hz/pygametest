@@ -1,7 +1,7 @@
 import random
 
 # import pygame
-from Rockgame import enemy ,consts,player,tools,wall
+from Rockgame import enemy ,consts,player,tools
 
 
 
@@ -21,7 +21,7 @@ class Map:
         self.enemy_position = map_data['enemy_position']
         self.enemy_num = map_data['enemy_num']
         self.player_position = map_data['player_position']
-        self.walls = map_data['walls']
+        # self.walls = map_data['walls']
         #初始化区块
         area_width = consts.WINDOW_SIZE[0]/self.size[0]
         area_heigh = consts.WINDOW_SIZE[1]/self.size[1]
@@ -33,25 +33,30 @@ class Map:
                 end_point = (area_width*(j+1),area_heigh*(i+1))
                 area_data = {'id':id,'start_point':start_point,'end_point':end_point}
                 self.area_list.append(area_data.copy())
+        #所有敌人
         self.enemy_list = []
-        #加载所有墙壁
-        self.wall_list = []
-        if len(self.walls) > 0:
-            for i in self.walls:
-                pos = self.change_area_to_position(i)[0]
-                _wall = wall.Wall(position=pos,size=(area_width,area_heigh))
-                self.wall_list.append(_wall)
+        # #加载爆炸后的痕迹
+        self.trace_list = []
 
+    #获得区域坐标
     def change_area_to_position(self,area):
         for i in self.area_list:
             if i['id'] == area:
                 return i['start_point'],i['end_point']
         print(area)
 
+    #坐标位置所在区域
+    def change_pos_to_area(self,pos):
+        area_width = consts.WINDOW_SIZE[0] / self.size[0]
+        area_heigh = consts.WINDOW_SIZE[1] / self.size[1]
+        a = pos[0] / area_width
+        b = pos[1] / area_heigh
+        return  b * 10 + a + 1
+
     def create_player(self):
         self._player = player.Player(position=self.player_position)
 
-    #获取当前或者的敌人数量
+    #获取当前活着的敌人数量
     def get_enemy_num(self):
         num = 0
         for i in self.enemy_list:
@@ -70,5 +75,19 @@ class Map:
 
         #生成敌人的时间
         # self.create_enemy_time = pygame.time.get_ticks()
+
+    #获得所有敌人死亡痕迹所占区域
+    def add_trace(self):
+        for i in self.enemy_list:
+            if i.is_dead:
+                #该敌人的四个顶点坐标
+                a = (i._rect[0],i._rect[1])
+                b = (i._rect[0] + i._rect[2],i._rect[1])
+                c = (i._rect[0],i._rect[1] + i._rect[3])
+                d = (i._rect[0] + i._rect[2],i._rect[1] + i._rect[3])
+                for j in [a,b,c,d]:
+                    area_id = self.change_pos_to_area(j)
+                    self.trace_list.append(area_id)
+
 
 

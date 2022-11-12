@@ -1,4 +1,4 @@
-from Rockgame import physics
+from Rockgame import physics,consts,tools
 
 class Wall(physics.Transform):
     def __init__(self,position,size):

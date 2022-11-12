@@ -73,6 +73,10 @@ def draw_enemy():
             elif i.type == 2:
                 pygame.draw.polygon(screen, color, tools.caculate_enemy_points(i._rect, i.type), 2)
             i.move(_player.position)
+        #死亡的敌人产生地面痕迹
+        else:
+            color = i.color
+            pygame.draw.rect(screen, color, i._rect, 0)
 
 #显示所有墙壁
 def draw_walls():
